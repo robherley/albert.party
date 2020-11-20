@@ -20,13 +20,27 @@
       height: 100vh;
     }
 
-    p {
+    #msg {
+      margin-top: 1rem;
       text-align: center;
     }
   </style>
   <div>
     <img src="img/albs.png" alt="bertmeister">
-    <p>he needs some henny</p>
+    <div id="msg">he needs some henny</div>
+    <script>
+      const update = () => {
+        window.location = `${window.location.origin}?msg=${newmsg.value}`
+      }
+
+      window.onload = () => {
+        const u = new URL(window.location)
+        const message = u.searchParams.get('msg');
+        // XSS for more fun
+        msg.innerHTML = message ?
+          message : `<form onSubmit="update(); return false"><input id="newmsg"></input><button type="submit">say something</button></form>`;
+      }
+   </script>
   </div>
 </body>
 </html>
